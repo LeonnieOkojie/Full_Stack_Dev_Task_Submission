@@ -1,0 +1,21 @@
+sequenceDiagram
+    participant browser
+    participant server
+
+    Note right of browser: The users adds a new note called task three in the text field and clicks the save button
+
+    browser->>server: POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa
+    activate server
+    Note left of browser: The server processes the submitted note data
+    server-->>browser: 201 Created
+    deactivate server
+
+    Note right of browser: The browser updates the local notes and adds the new notes
+    
+    
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/data.json
+    activate server
+    server-->>browser: Updated JSON data with all notes including the recently added note
+    deactivate server
+
+    Note right of browser: The browser renders dynamically with the updated notes list
