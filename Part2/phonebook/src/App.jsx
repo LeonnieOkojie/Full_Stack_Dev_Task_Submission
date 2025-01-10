@@ -13,6 +13,11 @@ const App = () => {
 
   const addName = (event) => {
     event.preventDefault() // This prevents the default action
+    
+    if (persons.some(person => person.name === newName)) {
+      alert(`${newName} is already added to phonebook`);
+      return;
+    }
 
     const personObject = { 
       name: newName, 
@@ -48,7 +53,10 @@ const App = () => {
       </form>
 
       <h2>Numbers</h2>
-      <ul>
+      <ul style={{
+        listStyle:'none',
+        padding: 0
+        }}>
         {persons.map(person => 
           <li key={person.id}>{person.name}</li>
         )}
