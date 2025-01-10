@@ -15,8 +15,9 @@ const App = () => {
     event.preventDefault() // This prevents the default action
     
     if (persons.some(person => person.name === newName)) {
+      // Checks for already existing names using the some method
       alert(`${newName} is already added to phonebook`);
-      return;
+      return; // prevents the name from being added and exits the function
     }
 
     const personObject = { 
