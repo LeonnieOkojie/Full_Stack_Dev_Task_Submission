@@ -4,12 +4,15 @@ const App = () => {
 
   const [persons, setPersons] = useState([
     {
-      id: 1,
-      name: 'Bella Leonnie'
+      name: 'Bella Andrews',
+      number: '123-4567890',
+      id: 1
     }
   ])
 
   const [newName, setNewName] = useState('')
+
+  const [phoneNumber, setPhoneNumber] = useState('')
 
   const addName = (event) => {
     event.preventDefault() // This prevents the default action
@@ -22,7 +25,8 @@ const App = () => {
 
     const personObject = { 
       name: newName, 
-      id: persons.length + 1 // This sets the id of the person
+      number: phoneNumber,
+      id: persons.length + 1, // This sets the id of the person
     }
     
     console.log('New person', personObject)
@@ -30,11 +34,17 @@ const App = () => {
     setPersons(persons.concat(personObject)) // Adds the person to a new array
 
     setNewName('') // Resets the input field
+    setPhoneNumber('') 
   }
 
   const handleNewName = (event) => {
     console.log(event.target.value)
     setNewName(event.target.value) // Sets the value of the input field
+  }
+
+  const handleNumber = (event) => {
+    console.log(event.target.value)
+    setPhoneNumber(event.target.value)
   }
 
   return (
@@ -45,6 +55,11 @@ const App = () => {
         <div>
           name: <input value={newName} 
           onChange={handleNewName}/>
+        </div>
+
+        <div>
+          number: <input value={phoneNumber} 
+          onChange={handleNumber}/>
         </div>
 
         <div>
@@ -59,7 +74,7 @@ const App = () => {
         padding: 0
         }}>
         {persons.map(person => 
-          <li key={person.id}>{person.name}</li>
+          <li key={person.id}>{person.name} {person.number}</li>
         )}
       </ul>
 
