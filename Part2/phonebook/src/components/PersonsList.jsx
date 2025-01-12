@@ -1,4 +1,5 @@
 import React from "react";
+import './PersonsList.css';
 
 const PersonsList = ({ persons, deletePerson }) => {
     return (
@@ -7,14 +8,9 @@ const PersonsList = ({ persons, deletePerson }) => {
                 {persons.map(person =>
                     <li key={person.id}>
                         {person.name} {person.number}
-                        <button style={
-                        {
-                            marginLeft: 10, 
-                            backgroundColor: "steelblue",
-                            borderRadius: 5,
-                            border: "none",
-                        }}
-                        onClick={() => deletePerson(person.id)}>
+                        <button
+                            className="button"
+                            onClick={() => deletePerson(person.id)}>
                             delete
                         </button>
                     </li>

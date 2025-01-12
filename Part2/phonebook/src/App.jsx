@@ -24,12 +24,25 @@ const App = () => {
   const addName = (event) => {
     event.preventDefault() // This prevents the default action
     
-    if (persons.some(person => person.name === newName)) {
-      // Checks for already existing names using the some method
-      alert(`${newName} is already added to phonebook, try again!`);
-      return; // prevents the name from being added and exits the function
-    }
+    const existingUser = persons.find(person => person.name === newName) // Checks if the name already exists
 
+    if (existingUser) { 
+      const confirmUpdate = window.confirm(
+        `${newName} is already added to phonebook, replace the old number with a new one?`
+      )
+      
+      if (confirmUpdate) { // If the user confirms the update
+        const updatedPerson = { ...existingUser, number: phoneNumber } // Updates the number
+        personService
+        .update(existingUser.id, updatedPerson) 
+        .then(returnedPerson => { 
+          setPersons(persons.map(person => person.id !== existingUser.id ? person : returnedPerson)) 
+          setNewName('') 
+          setPhoneNumber('')
+        })
+        return
+      }
+    }
     const personObject = { 
       name: newName, 
       number: phoneNumber

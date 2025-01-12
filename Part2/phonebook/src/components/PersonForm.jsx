@@ -1,4 +1,5 @@
 import React from "react";
+import './PersonsList.css';
 
 const PersonForm = ({newName, phoneNumber, handleNewName, handleNumber, addName }) => {
     return (
@@ -10,7 +11,7 @@ const PersonForm = ({newName, phoneNumber, handleNewName, handleNumber, addName 
                 number: <input value={phoneNumber} onChange={handleNumber}/>
             </div>
             <div>
-                <button type="submit">Add</button>
+                <button className="button" type="submit">Add</button>
             </div>
         </form>
     )
