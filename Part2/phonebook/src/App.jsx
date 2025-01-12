@@ -1,26 +1,22 @@
 import { useState, useEffect } from "react"
-import axios from "axios"
+import personService from "./services/persons"
 import Filter from "./components/Filter"
 import PersonForm from "./components/PersonForm"
 import PersonsList from "./components/PersonsList"
 
 const App = () => {
-
   const [persons, setPersons] = useState([])
-
   const [newName, setNewName] = useState('')
-
   const [phoneNumber, setPhoneNumber] = useState('')
-
   const [filterPerson, setFilterPerson] = useState('')
 
   useEffect(() => {
     console.log('effect')
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => {
+    personService
+      .getAll()
+      .then(InitialPerson => {
         console.log('promise fulfilled')
-        setPersons(response.data)
+        setPersons(InitialPerson)
       })
   }, [])
   console.log('render', persons.length, 'persons')
@@ -39,10 +35,10 @@ const App = () => {
       number: phoneNumber
     }
 
-    axios
-      .post('http://localhost:3001/persons', personObject)
-      .then(response => {
-        setPersons(persons.concat(response.data)) // Adds the person to a new array
+    personService
+      .create(personObject)
+      .then(returnedPerson => {
+        setPersons(persons.concat(returnedPerson)) // Adds the new person to the array
         setNewName('') // Resets the input field
         setPhoneNumber('') // Resets the input field 
       })
