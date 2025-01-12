@@ -36,16 +36,17 @@ const App = () => {
 
     const personObject = { 
       name: newName, 
-      number: phoneNumber,
-      id: persons.length + 1, // This sets the id of the person
+      number: phoneNumber
     }
-    
+
+    axios
+      .post('http://localhost:3001/persons', personObject)
+      .then(response => {
+        setPersons(persons.concat(response.data)) // Adds the person to a new array
+        setNewName('') // Resets the input field
+        setPhoneNumber('') // Resets the input field 
+      })
     console.log('New person', personObject)
-
-    setPersons(persons.concat(personObject)) // Adds the person to a new array
-
-    setNewName('') // Resets the input field
-    setPhoneNumber('') 
   }
 
   const handleNewName = (event) => {
@@ -83,7 +84,7 @@ const App = () => {
       />
 
       <h1>Numbers</h1>
-      <PersonsList personsToShow={personsToShow} />
+      <PersonsList persons={personsToShow} />
 
     </div>
   )

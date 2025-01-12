@@ -1,10 +1,10 @@
 import React from "react";
 
-const PersonsList = ({ personsToShow }) => {
+const PersonsList = ({ persons }) => {
     return (
         <div>
             <ul style={{listStyleType: "none", padding: 0}}>
-                {personsToShow.map(person =>
+                {persons.map(person =>
                     <li key={person.id}>{person.name} {person.number}</li>
                 )}
             </ul>
