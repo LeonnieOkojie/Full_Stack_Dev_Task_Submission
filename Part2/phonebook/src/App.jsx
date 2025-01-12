@@ -45,6 +45,18 @@ const App = () => {
     console.log('New person', personObject)
   }
 
+  const deletePerson = (id) => { 
+    const person = persons.find(person => person.id === id)
+    const result = window.confirm(`Delete ${person.name} ?`)
+    if (result) {
+      personService
+        .remove(id)
+        .then(() => {
+          setPersons(persons.filter(person => person.id !== id))
+        })
+    }
+  }
+
   const handleNewName = (event) => {
     console.log(event.target.value)
     setNewName(event.target.value) // Sets the value of the input field
@@ -80,8 +92,7 @@ const App = () => {
       />
 
       <h1>Numbers</h1>
-      <PersonsList persons={personsToShow} />
-
+      <PersonsList persons={personsToShow} deletePerson={deletePerson}/>
     </div>
   )
 }
