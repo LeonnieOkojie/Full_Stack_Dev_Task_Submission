@@ -3,12 +3,15 @@ import personService from "./services/persons"
 import Filter from "./components/Filter"
 import PersonForm from "./components/PersonForm"
 import PersonsList from "./components/PersonsList"
+import Notification from "./components/Notification"
 
 const App = () => {
   const [persons, setPersons] = useState([])
   const [newName, setNewName] = useState('')
   const [phoneNumber, setPhoneNumber] = useState('')
   const [filterPerson, setFilterPerson] = useState('')
+  const [showMessage, setShowMessage] = useState(null)
+  const [messageType, setMessageType] = useState('')
 
   useEffect(() => {
     console.log('effect')
@@ -36,9 +39,26 @@ const App = () => {
         personService
         .update(existingUser.id, updatedPerson) 
         .then(returnedPerson => { 
+          //Matches the id of the user to see if its already in the list before
           setPersons(persons.map(person => person.id !== existingUser.id ? person : returnedPerson)) 
           setNewName('') 
           setPhoneNumber('')
+          setShowMessage(`Updated '${returnedPerson.name}' in the phonebook`) 
+          setMessageType('success') //added the type to enable styling
+          setTimeout(() => {
+            setShowMessage(null)
+          }, 5000) //Displays the notification for 5 seconds
+        })
+
+        .catch(error => { //used catch for error handling
+          setShowMessage(
+            `Information of '${existingUser.name}' has been removed from server`
+          )
+          setMessageType('error') // set the message type to enable styling
+          setPersons(persons.filter(person => person.id !==existingUser.id))
+          setTimeout(() => {
+            setShowMessage(null)
+          }, 5000)
         })
         return
       }
@@ -54,6 +74,22 @@ const App = () => {
         setPersons(persons.concat(returnedPerson)) // Adds the new person to the array
         setNewName('') // Resets the input field
         setPhoneNumber('') // Resets the input field 
+        setShowMessage(`Added ${returnedPerson.name}`)
+        setMessageType('success')
+        setTimeout(() => {
+          setShowMessage(null)
+        }, 5000)
+      })
+
+      .catch(error => {
+        setShowMessage(
+          `Failed to add '${newName}'`
+        )
+        setPersons(persons.filter(person => person.id !==existingUser.id))
+        setMessageType('error')
+        setTimeout(() => {
+          setShowMessage(null)
+        }, 5000)
       })
     console.log('New person', personObject)
   }
@@ -93,6 +129,7 @@ const App = () => {
   return (
     <div>
       <h1>Phonebook</h1>
+      <Notification message={showMessage} type={messageType}/>
       <Filter filterPerson={filterPerson} handleFilterPerson={handleFilterPerson}/>
 
       <h1>Add a new</h1>

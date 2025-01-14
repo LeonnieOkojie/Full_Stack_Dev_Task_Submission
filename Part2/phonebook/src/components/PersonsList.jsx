@@ -1,10 +1,9 @@
 import React from "react";
-import './PersonsList.css';
 
 const PersonsList = ({ persons, deletePerson }) => {
     return (
         <div>
-            <ul style={{listStyleType: "none", padding: 0}}>
+            <ul>
                 {persons.map(person =>
                     <li key={person.id}>
                         {person.name} {person.number}

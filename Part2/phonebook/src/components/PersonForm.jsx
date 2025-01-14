@@ -1,5 +1,4 @@
 import React from "react";
-import './PersonsList.css';
 
 const PersonForm = ({newName, phoneNumber, handleNewName, handleNumber, addName }) => {
     return (
