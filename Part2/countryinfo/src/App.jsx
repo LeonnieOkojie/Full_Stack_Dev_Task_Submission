@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
 import axios from 'axios';
+import Weather from "./components/Weather";
 
 const App = () => {
   const [countries, setCountries] = useState([])
   const [filterCountries, setFilterCountries] = useState('')
-  const [searchedCountry, setSearchedCountry] = useState(null)
+  const [selectedCountry, setSelectedCountry] = useState(null)
 
   //useEffect for fetching the data from the API
   useEffect(() => {
@@ -17,12 +18,13 @@ const App = () => {
 
   const handleChange = (event) => {
     setFilterCountries(event.target.value) // updates the filterCountries state with the text typed in
-    setSearchedCountry(null)
+    setSelectedCountry(null)
     console.log('Searched for', event.target.value)
   }
 
+  // Displays the information of searched or selected country
   const handleShowDetails = (country) => {
-    setSearchedCountry(country)
+    setSelectedCountry(country)
     console.log(country)
   }
 
@@ -73,28 +75,32 @@ const App = () => {
             alt={`The image of the flag of ${countriesToShow[0].name.common}`}
             width="100"
           />
+
+          <Weather capital={countriesToShow[0].capital}/> {/* Displays the weather of the capital a searched country */}
         </div>
       )}
 
       {/* Displays the information of a country after the show button is clicked */}
-      {searchedCountry && (
+      {selectedCountry && (
         <div>
-          <h1>{searchedCountry.name.common}</h1>
-          <p>capital {searchedCountry.capital}</p>
-          <p>area {searchedCountry.area}</p>
+          <h1>{selectedCountry.name.common}</h1>
+          <p>capital {selectedCountry.capital}</p>
+          <p>area {selectedCountry.area}</p>
 
           <h2>languages</h2>
           <ul>
-            {Object.values(searchedCountry.languages).map(language => 
+            {Object.values(selectedCountry.languages).map(language => 
               <li key={language}>{language}</li>
             )}
           </ul>
 
           <img 
-          src={searchedCountry.flags.png}
-          alt={`The image of the flag of ${searchedCountry.name.common}`}
+          src={selectedCountry.flags.png}
+          alt={`The image of the flag of ${selectedCountry.name.common}`}
           width="100"
           />
+
+          <Weather capital={selectedCountry.capital}/> {/* Displays the weather information of a selected country */}
         </div>
       )}
     </div>
